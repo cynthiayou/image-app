@@ -1,0 +1,38 @@
+{
+  "name": "image-app",
+  "version": "1.0.0",
+  "description": "An app for image uploading and sharing",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cynthiayou/image-app.git"
+  },
+  "keywords": [
+    "image",
+    "image",
+    "uploading",
+    "image",
+    "sharing"
+  ],
+  "author": "Cynthia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cynthiayou/image-app/issues"
+  },
+  "homepage": "https://github.com/cynthiayou/image-app#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "express-session": "^1.17.0",
+    "express-validator": "^6.4.0",
+    "multer": "^1.4.2",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.5"
+  }
+}

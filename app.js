@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 
 const authRoutes= require('./routes/auth');
 const imageRoutes = require('./routes/image');
+const sequelize = require('./util/database');
+const User = require('./models/user');
 
 /**
  * App Variables
@@ -34,7 +36,12 @@ app.use(imageRoutes);
  * 
  * Server Activation
  */
-app.listen(port, ()=>{
-    console.log(`Listening to requests on http://localhost:${port}`);
-});
+sequelize
+    .sync()
+    .then(result => {
+        app.listen(port, ()=>{
+            console.log(`Listening to requests on http://localhost:${port}`);
+        })
+    });
+
 

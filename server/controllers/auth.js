@@ -12,8 +12,8 @@ exports.getLogin = (req, res, next)=>{
 };
 
 exports.postSignup = (req, res, next) => {
-  res.send({
-    message: `Hello ${req.body.email}! Your user was registered! Have fun!`
+  res.status(200).send({
+    message: `This is the right path. Your user was registered! Have fun!`
 })
 }
     //(req, res, next)=>{
@@ -48,7 +48,11 @@ exports.postSignup = (req, res, next) => {
     // })
    
 //};
-
+exports.checkEmail = (req, res, next) => {
+   res.status(200).json({
+      state: '0'
+   });
+}
 exports.postLogin = (req, res, next)=>{
     res.status(200).send("post login page");
 };

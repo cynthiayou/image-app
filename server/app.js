@@ -35,7 +35,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
  */
 app.post('/signup', (req, res, next) => {
     res.send({
-        message: `Hello Hello piggy Your user was registered! Have fun!`
+        message: `Hello Hello  Your user was registered! Have fun!`
     })
 })
 app.use('/auth', authRoutes);

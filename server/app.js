@@ -11,6 +11,7 @@ const authRoutes= require('./routes/auth');
 const imageRoutes = require('./routes/image');
 const sequelize = require('./util/database');
 const User = require('./models/user');
+const Image = require('./models/image');
 
 /**
  * App Variables
@@ -33,14 +34,12 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 /**
  * Routes Definitions
  */
-app.post('/signup', (req, res, next) => {
-    res.send({
-        message: `Hello Hello  Your user was registered! Have fun!`
-    })
-})
+
 app.use('/auth', authRoutes);
 app.use(imageRoutes);
 
+Image.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
+User.hasMany(Image);
 /**
  * 
  * Server Activation

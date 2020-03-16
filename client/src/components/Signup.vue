@@ -43,15 +43,21 @@ export default {
   },
   methods:{
     async signup () {
-      if (this.validUsername && this.validEmail && this.validPwd && this.validPwd2){
-        const response = await AuthenticationService.signup({
-          username: this.username
-        })
-        console.log(response.data)}     
+      try{
+        if (this.validUsername && this.validEmail && this.validPwd && this.validPwd2){
+          const response = await AuthenticationService.signup({
+            username: this.username
+          })
+          console.log(response.data)
+        }     
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
         alert("You have succefully signed up!")
-        // this.$router.push('/') 
-      
-      
+
+          // this.$router.push('/login') 
+      } catch (error){
+        console.log(error)
+      }     
     },
 
     checkName(){

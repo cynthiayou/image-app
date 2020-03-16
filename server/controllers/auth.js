@@ -1,40 +1,33 @@
 const bcrypt = require('bcryptjs');
-const { validationResult } = require('express-validator/check');
-
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
 
 const User = require('../models/user');
 
-exports.getSignup = (req, res, next)=>{
-    res.status(200).send("get signup page");
-};
+function jwtSignUser(user){
+  const ONE_WEEK = 60 * 60 * 24 * 7
+  return jwt.sign(user, config.authentication.jwtSecret, {
+    expiresIn: ONE_WEEK
+  })
+}
 
-exports.getLogin = (req, res, next)=>{
-    res.status(200).send("get login page");
-};
-
-exports.postSignup = (req, res, next)=>{
-    const email = req.body.email;
-    const password = req.body.password;
-    console.log(email);
-    console.log(password);
-    bcrypt
-    .hash(password, 12)
-    .then(hashedPassword => {
-        const user = User.create({
-            username: req.body.username,
-            email: email,
-            password: hashedPassword
-        });
-    })
-    .then(result => {
-        console.log("sucessfully created user");
-        //res.redirect('/auth/login');
-        res.status(200).send("success post signup page");
-    })
-    .catch(err => {
-        console.log(err);
-        return next();
-    })
+exports.signup = async (req, res, next)=>{
+  try{
+    // const email = req.body.email;
+    // const password = req.body.password;
+    // console.log(email);
+    // console.log(password);
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    const user = await User.create(req.body);
+    const userJson = user.toJSON()
+    res.send({
+      user: userJson,
+      token: jwtSignUser(userJson)
+    })    
+  }catch(err){
+    console.log(err);
+    return next();
+  }
    
 };
 exports.checkEmail = (req, res, next) => {
@@ -42,10 +35,10 @@ exports.checkEmail = (req, res, next) => {
       state: '0'
    });
 }
-exports.postLogin = (req, res, next)=>{
+exports.login = (req, res, next)=>{
     res.status(200).send("post login page");
 };
 
-exports.postLogout = (req, res, next)=>{
+exports.logout = (req, res, next)=>{
     res.status(200).send("post logout page");
 };

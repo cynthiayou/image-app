@@ -3,7 +3,7 @@
     <div class="col-md-4 mb-3" style="margin: auto">
       <div id="error-message" v-bind="errorMessage">{{ errorMessage }}</div>
       <div class="form-group">
-        <input class="form-control" type="email" name="email" v-model="email" @focus="errorMessage=''" placeholder="Email" />
+        <input class="form-control" type="email" name="email" v-model="email" v-on:input="email=$event.target.value" @focus="errorMessage=''" placeholder="Email" />
       </div>
       <div class="form-group">
         <input class="form-control" type="password" name="password" v-model="password" @focus="errorMessage=''" placeholder="Password" />
@@ -17,7 +17,7 @@
 
 <script>
 import $ from 'jquery'
-import AuthenticationService from '@/services/AuthenticationService'
+import ApiServices from '@/services/ApiServices'
 export default {
   data () {
     return {
@@ -30,7 +30,7 @@ export default {
     async login () {
       try{
         if (this.email && this.password){
-          const response = await AuthenticationService.login({
+          const response = await ApiServices.login({
             email: this.email,
             password: this.password
           })

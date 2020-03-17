@@ -20,7 +20,7 @@
 
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
+import ApiServices from '@/services/ApiServices'
 export default {
   data () {
     return {
@@ -46,7 +46,7 @@ export default {
           formData.append('title', this.title);
           formData.append('userId', this.$store.state.user.id);
           // console.log(formData)
-          const response = await AuthenticationService.addImage(
+          const response = await ApiServices.addImage(
             formData
           )
           console.log(response.data)

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
+import ApiServices from '@/services/ApiServices'
 export default {
   name: 'Images',
   data () {
@@ -46,12 +46,11 @@ export default {
     //   this.getImages();
     // },
     async getImages(){
-      const response = await AuthenticationService.getImages({
+      const response = await ApiServices.getImages({
         page: this.page,
         pageSize: this.pageSize
       })
       this.images = response.data
-      console.log(this.images)
     }
 
   }

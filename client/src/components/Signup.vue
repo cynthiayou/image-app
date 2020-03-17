@@ -27,7 +27,7 @@
 
 <script>
 import $ from 'jquery'
-import AuthenticationService from '@/services/AuthenticationService'
+import ApiServices from '@/services/ApiServices'
 export default {
   data () {
     return {
@@ -45,7 +45,7 @@ export default {
     async signup () {
       try{
         if (this.validUsername && this.validEmail && this.validPwd && this.validPwd2){
-          const response = await AuthenticationService.signup({
+          const response = await ApiServices.signup({
             username: this.username
           })
           console.log(response.data)
@@ -71,7 +71,7 @@ export default {
     },
     async checkEmail(){
       if (this.email && (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]{3,3}$/.test(this.email))){
-        const response = await AuthenticationService.checkEmail({
+        const response = await ApiServices.checkEmail({
           email: this.email,
         })
         if (response.data.state==='0'){

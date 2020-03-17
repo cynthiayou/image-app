@@ -1,8 +1,9 @@
 const Image = require('../models/image');
 const Comment = require('../models/comment');
+const User = require('../models/user');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs')
+
 
 //Set Storage Engine
 const storage = multer.diskStorage({
@@ -90,26 +91,36 @@ exports.addComment = (req, res, next)=>{
    res.status(200).send("success adding comment");
   })
   .catch(err => {
-      console.log(err);
-      return next();
+    res.status(500).send("An error occured when adding a comment");
+    return next();
   })  
 }
 
 exports.getImageWithComments =  async (req, res, next)=>{
   try{
     const id = req.params.id;
-    console.log(id);
     const image = await Image.findOne( {
-      where: { id: req.params.id }
+      attributes: ['title', 'url', 'updatedAt'],
+      where: { id: id },
+      include: [{
+        model: User, 
+        attributes: ['username']
+      }]
     });
     const comments = await Comment.findAll({
-      where: {imageId: id}, limit: 10, order: [['updatedAt', 'DESC']]
+      attributes: ['text', 'updatedAt'],
+      where: {imageId: id}, 
+      order: [['updatedAt', 'DESC']],
+      include: [{
+        model: User, 
+        attributes: ['username']
+      }]
     });
     res.json({
-      image, 
+      image,
       comments
     })
-    console.log("succesully get image with comments");  
+    console.log("successfully get image with comments");  
   } catch(err) {
       console.log(err);
       return next();

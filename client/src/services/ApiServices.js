@@ -15,5 +15,11 @@ export default {
   },
   getImages(credentials){
     return Api().get('images', credentials)
-  }
+  },
+  getImageDetails(id){
+    return Api().get(`image/${id}`)
+  },
+  addComment(credentials){
+    return Api().post('addcomment', credentials)
+  },
 }

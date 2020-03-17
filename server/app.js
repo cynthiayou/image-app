@@ -13,7 +13,7 @@ const imageRoutes = require('./routes/image');
 const sequelize = require('./util/database');
 const User = require('./models/user');
 const Image = require('./models/image');
-
+const Comment = require('./models/comment');
 /**
  * App Variables
  */
@@ -61,8 +61,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/auth', authRoutes);
 app.use(imageRoutes);
 
-Image.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
-User.hasMany(Image);
+Image.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Image, { foreignKey: 'userId' });
+Comment.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Comment, { foreignKey: 'userId' });
+Comment.belongsTo(Image, { foreignKey: 'imageId' });
+Image.hasMany(Comment, { foreignKey: 'imageId' });
 /**
  * 
  * Server Activation

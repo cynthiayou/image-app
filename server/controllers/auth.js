@@ -28,10 +28,21 @@ exports.signup = async (req, res, next)=>{
     return next();
   }   
 };
-exports.checkEmail = (req, res, next) => {
-   res.status(200).json({
+exports.checkEmail = async (req, res, next) => {
+  const user = await User.findOne({
+    where: { email: req.body.email }
+  })
+  if (user){
+    res.send({
+      //State 0 indicates the email has already been taken
       state: '0'
-   });
+    })
+  }else{
+    res.send({
+      //State 1 indicates the email is available to use
+      state: '1'
+    })
+  }
 }
 exports.login = async (req, res, next)=>{
   try{

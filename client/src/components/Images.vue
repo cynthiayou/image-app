@@ -2,7 +2,7 @@
   <div>
     <header class="jumbotron" style="margin-top: 15px; margin-bottom: 20px;"><!-- for header tag, no difference but a div except semantic meaning-->
     <div class="container"> <!--This inside container will give the text inside the jumbotron some space rather than being squeezed against the edge when minimize-->
-        <h1>Welcome to CaptureLife !</h1>
+        <h1>Welcome to CaptureLife!</h1>
         <p>Gorgeous scenery, unique insights and more.</p>
         <p>
             <a class="btn btn-primary btn-large" href="/upload">Upload a photo</a>

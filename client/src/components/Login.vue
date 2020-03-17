@@ -9,7 +9,7 @@
         <input class="form-control" type="password" name="password" v-model="password" @focus="errorMessage=''" placeholder="Password" />
       </div>
       <div @click="login" class="form-group">
-          <button class="btn btn-lg btn-light btn-block" style="background-color: #e3f2fd;">Log in!</button>
+          <button class="btn btn-lg btn-light btn-block" style="background-color: #e3f2fd;">Log in</button>
       </div>
     </div>     
   </div>
@@ -41,7 +41,6 @@ export default {
         }     
         
       } catch (error){
-        console.log(error.response.data.error)
         this.errorMessage = error.response.data.error
       }     
     }

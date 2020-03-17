@@ -7,7 +7,7 @@
           <input type="text" class="form-control" id="imgTitle" v-model="title" name="title" @focus="errorMessage=''" placeholder="Enter the title for your image">
         </div>
         <div class="form-group">
-          <label for="image">Image:</label>
+          <label for="image">Image <span style="font-style:italic; font-size:12px;">(< 800KB):</span></label>
           <input type="file" @change="onFileChanged" class="form-control-file" @focus="errorMessage=''" id="image" name="image">
         </div>
         <div @click="onUpload" class="form-group">
@@ -31,27 +31,29 @@ export default {
   },
   methods: {
     onFileChanged (event){
-      console.log("file clicked")
       this.selectedFile = event.target.files[0]
-
       // console.log(this.selectedFile)
-
     },
     async onUpload () {
       try{
         if (!this.$store.state.isUserLoggedIn){
            this.$router.push({
-            name: '/login'
+            name: 'login'
           })   
         }else {
-          const response = await AuthenticationService.addImage({
-            file: this.selectedFile
-          })
+          let formData = new FormData()
+          formData.append('file', this.selectedFile);
+          formData.append('title', this.title);
+          formData.append('userId', this.$store.state.user.id);
+          // console.log(formData)
+          const response = await AuthenticationService.addImage(
+            formData
+          )
           console.log(response.data)
           alert("Image successfully added")    
         }  
       } catch (error){
-        this.errorMessage = err.reponse.data.error
+        this.errorMessage = error.reponse.data.error
       }     
     }
   } 
@@ -60,11 +62,11 @@ export default {
 
 <style scoped>
 .form-row {
-  margin-top:60px;
+  margin-top:40px;
 }
 #error-message{
   color: red;
   font-style: italic;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 </style>

@@ -1,5 +1,44 @@
 const Image = require('../models/image');
 const Comment = require('../models/comment');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs')
+
+//Set Storage Engine
+const storage = multer.diskStorage({
+  destination: '../client/static/',
+  filename: function(req, file, cb){
+    cb(null, file.originalname);
+  }
+})
+
+// Init Upload
+const upload = multer({
+  storage: storage,
+  limits:{fileSize: 1000000},
+  fileFilter: function(req, file, cb){
+    checkFileType(file, cb);
+
+  }
+}).single('file');
+
+// Check File Type
+function checkFileType(file, cb){
+  // Allowed ext
+  const filetypes = /jpeg|jpg|png|gif/;
+  // check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // check mime
+  const minetype = filetypes.test(file.mimetype);
+
+  if (extname && minetype){
+    return cb(null, true);
+  }
+  else{
+    cb('Error: Image Only!');
+  }
+}
+
 exports.getImages= (req, res, next)=>{
   // Image.findAll({ limit: 10, order: [['updatedAt', 'DESC']]}).then(images =>
   //   res.json(images))
@@ -8,28 +47,31 @@ exports.getImages= (req, res, next)=>{
 };
 
 exports.addImage = (req, res, next)=>{
-  // const userId = req.body.userId;
-  // const title = req.body.title;
-  // const image = req.body.image;
-  // console.log(userId);
-  // console.log(title);
-  console.log(req.body.image);
-  res.send("receive image");
-  next();
-//   Image.build({  
-//     userId: req.body.userId,
-//     title: req.body.title,
-//     url: req.body.url
-//  }).save()
-//  .then(result => {
-//    console.log("succesully create image");
-//    res.status(200).send("success post signup page");
-//   })
-//   .catch(err => {
-//       console.log(err);
-//       return next();
-//   })  
-}
+    upload(req, res,(err) => {
+      if (err){
+        res.status(500).send({
+          error: 'An error has occured trying to upload image'
+        })
+      }else{
+        const title = req.body.title;
+        const userId = req.body.userId;
+        const url = req.file.filename;
+        Image.create({
+          userId: userId,
+          title: title,
+          url: url
+        })
+        .then(result =>{          
+           res.send("image successfully uploaded");
+        })
+        .then(err2 => {
+           res.send({
+            error: 'An error has occured trying to upload image'
+          })
+        })
+      }
+  })
+};
 
 exports.addComment = (req, res, next)=>{
   const userId = req.body.userId;

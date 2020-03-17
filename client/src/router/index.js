@@ -4,10 +4,11 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import HelloWorld from '@/components/HelloWorld'
+import Images from '@/components/Images'
 import Signup from '@/components/Signup'
 import UploadImage from '@/components/UploadImage'
 import Login from '@/components/Login'
+import ImageDetails from '@/components/ImageDetails'
 
 Vue.use(Router)
 Vue.use(BootstrapVue);
@@ -17,8 +18,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'images',
+      component: Images
     },
     {
       path: '/signup',
@@ -27,13 +28,18 @@ export default new Router({
     },
     {
       path: '/upload',
-      name: 'UploadImage',
+      name: 'uploadImage',
       component: UploadImage
     },
     {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: Login
     },
+    {
+      path: '/image/:id',
+      name: "imageDetails",
+      component: ImageDetails
+    }
   ]
 })

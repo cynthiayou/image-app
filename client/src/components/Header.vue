@@ -1,26 +1,25 @@
 <template>
-<nav style="background-color: #e3f2fd;" class="navbar navbar-expand-lg">
-  <a class="navbar-brand" href="">CaptureLife</a>
+<nav style="background-color: #eee;" class="navbar navbar-expand-lg">
+  <a class="navbar-brand" href=""><img src="../assets/logo.png" id="logo" alt=""></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/" >Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
+      <li v-if="!$store.state.isUserLoggedIn" class="nav-item">
         <a class="nav-link" href="/login">Login</a>
       </li>
-      <li class="nav-item">
+      <li v-if="!$store.state.isUserLoggedIn" class="nav-item">
         <a class="nav-link" href="/signup">Signup</a>
       </li>
-      <li class="nav-item" style="margin-right: 40px;">
+      <li v-if="$store.state.isUserLoggedIn" class="nav-item">
         <a @click="logout" class="nav-link" href="/">Logout</a>
       </li>
       <li class="nav-item">
-        <a @click="upload" class="nav-link" href="/upload">Upload</a>        
+        <a class="nav-link" href="/upload">Upload</a>        
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -40,19 +39,17 @@ export default {
       this.$store.dispatch('setToken', null)
       this.$store.dispatch('setUser', null)
       alert("log out")
-    },
-    upload () {
-      
     }
   }
 }
 </script>
 
 <style scoped>
-.home {
-  cursor: pointer;
+.nav-link, button{
+  color:#5e5e5e;
 }
-.home:hover {
-  color: #E9E;
+#logo{
+  height:30px;
 }
+
 </style>

@@ -12,5 +12,8 @@ export default {
   },
   addImage(credentials){
     return Api().post('addimage', credentials)
+  },
+  getImages(credentials){
+    return Api().get('images', credentials)
   }
 }

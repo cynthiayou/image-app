@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <div id='router-view'>
+    <div style="width:90%;margin:auto;" id='router-view'>
       <router-view/>
     </div>    
   </div>
@@ -23,6 +23,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-
+  
 }
 </style>

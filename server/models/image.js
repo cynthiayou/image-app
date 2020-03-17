@@ -16,9 +16,7 @@ const Image = sequelize.define("Image",{
   },
   title: {
     type: Sequelize.STRING,
-    unique: true,
-    allowNull: false,
-    
+    allowNull: false,    
   },
   url: {
     type: Sequelize.STRING,

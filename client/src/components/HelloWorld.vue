@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    {{msg}}
   </div>
 </template>
 
@@ -8,7 +9,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to YourlalalApp'
     }
   }
 }

@@ -8,23 +8,27 @@ exports.getImages= (req, res, next)=>{
 };
 
 exports.addImage = (req, res, next)=>{
-  const userId = req.body.userId;
-  const title = req.body.title;
-  console.log(userId);
-  console.log(title);
-  Image.build({  
-    userId: req.body.userId,
-    title: req.body.title,
-    url: req.body.url
- }).save()
- .then(result => {
-   console.log("succesully create image");
-   res.status(200).send("success post signup page");
-  })
-  .catch(err => {
-      console.log(err);
-      return next();
-  })  
+  // const userId = req.body.userId;
+  // const title = req.body.title;
+  // const image = req.body.image;
+  // console.log(userId);
+  // console.log(title);
+  console.log(req.body.image);
+  res.send("receive image");
+  next();
+//   Image.build({  
+//     userId: req.body.userId,
+//     title: req.body.title,
+//     url: req.body.url
+//  }).save()
+//  .then(result => {
+//    console.log("succesully create image");
+//    res.status(200).send("success post signup page");
+//   })
+//   .catch(err => {
+//       console.log(err);
+//       return next();
+//   })  
 }
 
 exports.addComment = (req, res, next)=>{

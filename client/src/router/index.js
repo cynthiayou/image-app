@@ -6,10 +6,14 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import HelloWorld from '@/components/HelloWorld'
 import Signup from '@/components/Signup'
+import UploadImage from '@/components/UploadImage'
+import Login from '@/components/Login'
+
 Vue.use(Router)
 Vue.use(BootstrapVue);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -20,6 +24,16 @@ export default new Router({
       path: '/signup',
       name: 'signup',
       component: Signup
-    }
+    },
+    {
+      path: '/upload',
+      name: 'UploadImage',
+      component: UploadImage
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
   ]
 })

@@ -13,30 +13,55 @@ function jwtSignUser(user){
 
 exports.signup = async (req, res, next)=>{
   try{
-    // const email = req.body.email;
-    // const password = req.body.password;
-    // console.log(email);
-    // console.log(password);
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const user = await User.create(req.body);
     const userJson = user.toJSON()
     res.send({
-      user: userJson,
+      user: {
+        id: user.id,
+        username: user.username
+      },
       token: jwtSignUser(userJson)
     })    
   }catch(err){
     console.log(err);
     return next();
-  }
-   
+  }   
 };
 exports.checkEmail = (req, res, next) => {
    res.status(200).json({
       state: '0'
    });
 }
-exports.login = (req, res, next)=>{
-    res.status(200).send("post login page");
+exports.login = async (req, res, next)=>{
+  try{
+    const user = await User.findOne({
+      where: { email: req.body.email }
+    })
+    if (user){
+      bcrypt.compare(req.body.password, user.password)
+      .then((doMatch) => {
+        const userJson = user.toJSON()
+        res.send({
+          user: {
+            id: user.id,
+            username: user.username
+          },
+          token: jwtSignUser(userJson)
+        })
+      })
+    }else {
+      return res.status(403).send({
+        error: 'The login information was incorrect'
+      })
+    }
+  }catch(err){
+    res.status(500).send({
+      error: 'An error has occured trying to log in'
+    })
+    return next();
+  }
+  
 };
 
 exports.logout = (req, res, next)=>{

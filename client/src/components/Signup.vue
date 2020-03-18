@@ -46,15 +46,15 @@ export default {
       try{
         if (this.validUsername && this.validEmail && this.validPwd && this.validPwd2){
           const response = await ApiServices.signup({
-            username: this.username
+            username: this.username,
+            email: this.email,
+            password: this.password
           })
-          console.log(response.data)
-        }     
-        this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.user)
-        alert("You have succefully signed up!")
-
-          // this.$router.push('/login') 
+          this.$store.dispatch('setToken', response.data.token)
+          this.$store.dispatch('setUser', response.data.user)
+          alert("You have succefully signed up!")
+          this.$router.push('/login') 
+        }   
       } catch (error){
         console.log(error)
       }     
@@ -87,22 +87,20 @@ export default {
       }
     },
     checkPwd(){
-      console.log(this.password)
       if (this.password && this.password.length > 5 ){
         $("#pwdSpan").hide();
         this.validPwd = true;
       } else{
-        $("#pwdSpan").text("Password has to be at least 6 characters long").attr("class", "error").show();
+        $("#pwdSpan").text("! Password has to be at least 6 characters long").attr("class", "error").show();
         this.validPwd = false;
       }
     },
     checkPwd2(){
-      console.log(this.password2)
       if (this.password2 && this.password2 === this.password){
         $("#pwdSpan2").hide();
         this.validPwd2 = true;
       } else {
-        $("#pwdSpan2").text("Passwords don't match").attr("class", "error").show();
+        $("#pwdSpan2").text("! Passwords don't match").attr("class", "error").show();
         this.validPwd2 = false;
       }
     },

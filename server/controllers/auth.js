@@ -14,15 +14,12 @@ function jwtSignUser(user){
 exports.signup = async (req, res, next)=>{
   try{
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
-    const user = await User.create(req.body);
-    const userJson = user.toJSON()
-    res.send({
-      user: {
-        id: user.id,
-        username: user.username
-      },
-      token: jwtSignUser(userJson)
-    })    
+    const user = await User.create({
+      username: req.body.username,
+      email: req.body.email,
+      password: hashedPassword
+    });
+    res.send("signed up")       
   }catch(err){
     console.log(err);
     return next();
@@ -34,13 +31,13 @@ exports.checkEmail = async (req, res, next) => {
   })
   if (user){
     res.send({
-      //State 0 indicates the email has already been taken
-      state: '0'
+      //State 1 indicates the email has already been taken
+      state: '1'
     })
   }else{
     res.send({
-      //State 1 indicates the email is available to use
-      state: '1'
+      //State 0 indicates the email is available to use
+      state: '0'
     })
   }
 }
@@ -52,22 +49,27 @@ exports.login = async (req, res, next)=>{
     if (user){
       bcrypt.compare(req.body.password, user.password)
       .then((doMatch) => {
-        const userJson = user.toJSON()
-        res.send({
-          user: {
-            id: user.id,
-            username: user.username
-          },
-          token: jwtSignUser(userJson)
-        })
-      })
-    }else {
-      return res.status(403).send({
-        error: 'The login information was incorrect'
+        if (doMatch){
+          const userJson = user.toJSON()
+          res.send({
+            state: '0',
+            user: {
+              id: user.id,
+              username: user.username
+            },
+            token: jwtSignUser(userJson)
+          })
+        }else{
+          res.send({
+            state: '1',
+            error: "Password doesn't match"
+          })
+        }        
       })
     }
   }catch(err){
     res.status(500).send({
+      state: 1,
       error: 'An error has occured trying to log in'
     })
     return next();

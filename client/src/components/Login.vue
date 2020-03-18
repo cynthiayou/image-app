@@ -34,10 +34,14 @@ export default {
             email: this.email,
             password: this.password
           })
-          this.$store.dispatch('setToken', response.data.token)
-          this.$store.dispatch('setUser', response.data.user)
-          alert("You've successfully logged in")
-          this.$router.push('/') 
+          if (response.data.state === '0'){
+            this.$store.dispatch('setToken', response.data.token)
+            this.$store.dispatch('setUser', response.data.user)
+            alert("You've successfully logged in")
+            this.$router.push('/') 
+          } else{
+            this.errorMessage = response.data.error
+          }          
         }     
         
       } catch (error){

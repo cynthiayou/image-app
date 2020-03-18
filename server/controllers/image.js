@@ -65,7 +65,7 @@ exports.getImages= (req, res, next)=>{
 exports.addImage = (req, res, next)=>{
     upload(req, res,(err) => {
       if (err){
-        res.status(500).send({
+        res.send({
           error: 'An error has occured trying to upload image'
         })
       }else{
@@ -89,6 +89,23 @@ exports.addImage = (req, res, next)=>{
   })
 };
 
+exports.editImage = (req, res, next)=>{
+    const title = req.body.title;
+    const id = req.body.id;
+    console.log(title)
+    console.log(id)
+    Image.update(
+      { title: title },
+      { where: { id: id } }
+    )
+    .then(result =>{
+      res.send("Successfully edited");
+    })
+    .then(err =>{
+      res.send(err);
+    })
+     
+};
 exports.addComment = (req, res, next)=>{
   const userId = req.body.userId;
   const imageId = req.body.imageId;

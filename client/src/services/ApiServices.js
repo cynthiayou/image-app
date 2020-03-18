@@ -24,5 +24,8 @@ export default {
   },
   search(credentials){
     return Api().post('search', credentials)
+  },
+  edit(credentials){
+    return Api().post('editImage', credentials)
   }
 }

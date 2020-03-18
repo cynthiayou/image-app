@@ -37,11 +37,15 @@
                   <img style="width:100%;" v-bind:src="'/static/' +image.url" v-bind:alt ="image.title">
                 </a>
                 <div style="padding:5px;">
-                  <h4>{{image.title}}</h4>
+                  <h4>{{image.title}}<button @click="editImage(image.id)" id="editBtn"><img v-show="$store.state.user.id == image.userId" src="../assets/edit.png" style="width:15px; height:15px; margin-left:5px;" alt="Edit Name"></button></h4>
+                
                 </div>
               </div>
       </div>
-      </div>
+    </div>
+
+  
+
   </div>
 </template>
 
@@ -53,7 +57,7 @@ export default {
     return {
       images:'',
       keyword: '',
-      tag: 'all'
+      tag: 'all',
     }
   },
   mounted: function(){
@@ -116,6 +120,11 @@ export default {
         }
         return comparison;
       })
+    },
+    async editImage(id){
+      console.log("button clicked")
+      console.log(id)
+      this.$router.push(`edit/${id}`)
     }
   }
 }
@@ -126,5 +135,12 @@ export default {
 .pic {
   height:200px;
   width:200px;
+}
+#editBtn{
+  background: white;
+  border: none;
+}
+#editBtn:hover{
+  background: lightblue;
 }
 </style>

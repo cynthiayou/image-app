@@ -7,4 +7,5 @@ router.post('/addimage', imageController.addImage);
 router.post('/addcomment', imageController.addComment);
 router.get('/image/:id', imageController.getImageWithComments);
 router.post('/search', imageController.search);
+router.post('/editimage', imageController.editImage);
 module.exports = router;

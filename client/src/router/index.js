@@ -9,6 +9,7 @@ import Signup from '@/components/Signup'
 import UploadImage from '@/components/UploadImage'
 import Login from '@/components/Login'
 import ImageDetails from '@/components/ImageDetails'
+import EditImage from '@/components/EditImage'
 
 Vue.use(Router)
 Vue.use(BootstrapVue);
@@ -40,6 +41,11 @@ export default new Router({
       path: '/image/:id',
       name: "imageDetails",
       component: ImageDetails
+    },
+    {
+      path: '/edit/:id',
+      name: "edit",
+      component: EditImage
     }
   ]
 })

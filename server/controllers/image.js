@@ -3,7 +3,7 @@ const Comment = require('../models/comment');
 const User = require('../models/user');
 const multer = require('multer');
 const path = require('path');
-
+const sequelize = require('../util/database');
 
 //Set Storage Engine
 const storage = multer.diskStorage({
@@ -41,10 +41,25 @@ function checkFileType(file, cb){
 }
 
 exports.getImages= (req, res, next)=>{
-  // Image.findAll({ limit: 10, order: [['updatedAt', 'DESC']]}).then(images =>
-  //   res.json(images))
-  Image.findAll({ limit: 10, order: [['title', 'ASC']]}).then(images =>
-    res.json(images))
+  try{
+    const tag = req.params.tag;
+    if (tag == 'all'){
+      //Order the images by date by default
+      Image.findAll({ order: [['updatedAt', 'DESC']]}).then(images =>
+      res.json(images))
+    } else{
+      Image.findAll({ 
+        where: { userId: tag},
+        order: [['updatedAt', 'DESC']]}
+        ).then(images =>
+      res.json(images))
+    }
+  
+  }catch(err) {
+    console.log(err);
+    return next();
+  }
+  
 };
 
 exports.addImage = (req, res, next)=>{
@@ -92,7 +107,7 @@ exports.addComment = (req, res, next)=>{
   })
   .catch(err => {
     res.status(500).send("An error occured when adding a comment");
-    return next();
+      return next();
   })  
 }
 
@@ -126,3 +141,28 @@ exports.getImageWithComments =  async (req, res, next)=>{
       return next();
   }
 }
+exports.search = async (req, res, next)=>{
+  try{
+    const keyword = req.body.keyword;
+    console.log(keyword);
+    
+    const images = await sequelize.query(
+      "SELECT DISTINCT images.title, images.url, images.updatedAt FROM images join comments on images.id=comments.imageId WHERE images.title LIKE \"%" + keyword + "%\" OR comments.text LIKE \"%" + keyword + "%\" ",
+      {type: sequelize.QueryTypes.SELECT}
+    )
+    if (images){
+      res.json(images)
+    }else {
+      res.send({
+        error: 'No such images found!'
+      })
+    }
+  }catch(err){
+      res.status(500).send({
+        error: 'An error has occured searching images.'
+      })
+      return next();
+    }
+  }
+  
+  

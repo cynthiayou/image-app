@@ -13,8 +13,8 @@ export default {
   addImage(credentials){
     return Api().post('addimage', credentials)
   },
-  getImages(credentials){
-    return Api().get('images', credentials)
+  getImages(tag){
+    return Api().get(`images/${tag}`)
   },
   getImageDetails(id){
     return Api().get(`image/${id}`)
@@ -22,4 +22,7 @@ export default {
   addComment(credentials){
     return Api().post('addcomment', credentials)
   },
+  search(credentials){
+    return Api().post('search', credentials)
+  }
 }

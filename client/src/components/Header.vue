@@ -15,23 +15,22 @@
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-        <b-nav-form>
-          <b-form-input size="sm" v-bind="keyword" value="keyword" class="mr-sm-2" placeholder="Search"></b-form-input>
-          <b-button @click="search"  size="sm" class="my-2 my-sm-0" type="submit" >Search</b-button>
-        </b-nav-form>        
-      </b-navbar-nav>
+      <!-- <b-navbar-nav class="ml-auto">
+          <b-form-input size="sm" v-model="keyword" name="keyword" class="mr-sm-2" placeholder="Search"></b-form-input>
+          <b-button @click="search"  size="sm" class="my-2 my-sm-0" type="submit" >Search</b-button>      
+      </b-navbar-nav> -->
     </b-collapse>
   </b-navbar>
 </div>
 </template>
 
 <script>
+import ApiServices from '@/services/ApiServices'
 export default {
   name: 'Header',
   data () {
     return {
-      keyword: ''
+      
     }
   },
   methods: {
@@ -39,10 +38,8 @@ export default {
       this.$store.dispatch('setToken', null)
       this.$store.dispatch('setUser', null)
       alert("log out")
-    },
-    search (){
-      
     }
+    
   }
 }
 </script>

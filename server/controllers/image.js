@@ -164,7 +164,7 @@ exports.search = async (req, res, next)=>{
     console.log(keyword);
     
     const images = await sequelize.query(
-      "SELECT DISTINCT images.title, images.url, images.updatedAt FROM images join comments on images.id=comments.imageId WHERE images.title LIKE \"%" + keyword + "%\" OR comments.text LIKE \"%" + keyword + "%\" ",
+      "SELECT DISTINCT images.title, images.url, images.updatedAt FROM images WHERE images.title LIKE \"%" + keyword + "%\" ",
       {type: sequelize.QueryTypes.SELECT}
     )
     if (images){

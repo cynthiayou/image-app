@@ -19,4 +19,4 @@
   npm run dev
 ```
 
-# For database (MySql) configuration, please edit the file at /server/util/database.js
+###For database configuration, please refer to the file at /server/config/config.js
